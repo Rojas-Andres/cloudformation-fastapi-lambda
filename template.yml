@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Lambda test
+
+# Parameters:
+#   DataBaseDB:
+#     Description: Database DB
+#     Type: AWS::SSM::Parameter::Value<String>
+#     Default: DataBaseDB
+#   DataBaseHost:
+#     Description: Host Database
+#     Type: AWS::SSM::Parameter::Value<String>
+#     Default: DataBaseHost
+#   DataBasePassword:
+#     Description: Password Database
+#     Type: AWS::SSM::Parameter::Value<String>
+#     Default: DataBasePassword
+#   DataBasePort:
+#     Description: Port Database
+#     Type: AWS::SSM::Parameter::Value<String>
+#     Default: DataBasePort
+#   DataBaseUser:
+#     Description: User Database
+#     Type: AWS::SSM::Parameter::Value<String>
+#     Default: DataBaseUser
+Globals:
+  Api:
+    Name: !Sub api
+    TracingEnabled: true
+    Cors:
+      AllowOrigin: "'*'"
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+    
+Resources:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.9
+      MemorySize: 128
+      Timeout: 360
+      FunctionName: !Sub users
+      Description: !Sub users
+      CodeUri: modules/users
+      Handler: app.lambda_handler
+      # Environment:
+      #   Variables:
+      #     POSTGRES_HOST: !Ref DataBaseHost
+      #     POSTGRES_USER: !Ref DataBaseUser
+      #     POSTGRES_DB: !Ref DataBaseDB
+      #     POSTGRES_PASSWORD: !Ref DataBasePassword
+      #     POSTGRES_PORT: !Ref DataBasePort
+      Events:
+        getUser:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: get
+        createUser:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+        UserById:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: any
+        Login:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: post
+        TestApi:
+          Type: Api
+          Properties:
+            Path: /testApi
+            Method: get

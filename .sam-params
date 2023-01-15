@@ -1,0 +1,5 @@
+DataBaseHost="database-enersinc.clqf4hnirkkf.us-east-1.rds.amazonaws.com"
+DataBaseUser="postgres"
+DataBaseDB="postgres"
+DataBasePassword="postgresdatabase123"
+DataBasePort=5432
